@@ -24,7 +24,7 @@ import { buildDocumentFiltersChips } from 'utils/chips'
 
 import docTypes from 'assets/docTypes.json'
 
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 type DocumentsProps = {
   groupId?: string
@@ -61,7 +61,7 @@ const Documents: React.FC<DocumentsProps> = ({ groupId, deidentifiedBoolean }) =
 
   const [searchInputError, setSearchInputError] = useState<searchInputError | undefined>(undefined)
   const controllerRef = useRef<AbortController | null>()
-  const debouncedSearchInput = useDebounce(500, searchInput)
+  const debouncedSearchInput = useDebounce(searchInput, 500)
 
   const _cancelPendingRequest = () => {
     if (controllerRef.current) {

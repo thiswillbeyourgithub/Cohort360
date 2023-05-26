@@ -28,7 +28,7 @@ import { buildCohortFiltersChips } from 'utils/chips'
 
 import { useAppSelector, useAppDispatch } from 'state'
 import { deleteCohort, editCohort, fetchCohorts } from 'state/cohort'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 type ResearchProps = {
   simplified?: boolean
@@ -58,7 +58,7 @@ const Research: React.FC<ResearchProps> = ({ simplified, onClickRow }) => {
   const [open, setOpen] = useState(false)
 
   const rowsPerPage = 20
-  const debouncedSearchItem = useDebounce(500, searchInput)
+  const debouncedSearchItem = useDebounce(searchInput, 500)
 
   const [filters, setFilters] = useState<CohortFilters>({
     status: [],

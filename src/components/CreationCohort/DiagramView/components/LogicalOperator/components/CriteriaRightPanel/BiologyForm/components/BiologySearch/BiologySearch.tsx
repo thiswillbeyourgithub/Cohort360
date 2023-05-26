@@ -26,7 +26,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import { ReactComponent as SearchIcon } from 'assets/icones/search.svg'
 
 import useStyles from './styles'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 type BiologySearchListItemProps = {
   label: string
@@ -105,7 +105,7 @@ const BiologySearch: React.FC<BiologySearchProps> = (props) => {
   })
   const [selectedItems, setSelectedItems] = useState<[]>([])
 
-  const debouncedSearchItem = useDebounce(500, searchInput)
+  const debouncedSearchItem = useDebounce(searchInput, 500)
 
   const onKeyDown = async (e: any) => {
     if (e.keyCode === 13 && !e.shiftKey) {

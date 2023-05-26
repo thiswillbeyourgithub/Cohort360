@@ -8,7 +8,7 @@ import { getProviders } from 'services/aphp/serviceProviders'
 
 import ProvidersTable from './providersTable'
 import useStyles from '../styles'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 const ERROR_TITLE = 'error_title'
 const ERROR_USER_SHARE_LIST = 'error_user_share_list'
@@ -28,7 +28,7 @@ const RequestShareForm: React.FC<RequestShareFormProps> = ({ currentRequest, onC
   const [searchInput, setSearchInput] = useState('')
   const classes = useStyles()
 
-  const debouncedSearchTerm = useDebounce(700, searchInput)
+  const debouncedSearchTerm = useDebounce(searchInput, 700)
 
   const addProvider = (provider?: Provider | null) => {
     if (!provider) return

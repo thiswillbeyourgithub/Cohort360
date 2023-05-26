@@ -16,7 +16,7 @@ import { fetchDocuments } from 'state/patient'
 
 import { buildDocumentFiltersChips } from 'utils/chips'
 import docTypes from 'assets/docTypes.json'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 import useStyles from './styles'
 
@@ -58,7 +58,7 @@ const PatientDocs: React.FC<PatientDocsProps> = ({ groupId }) => {
   const [searchMode, setSearchMode] = useState(false)
   const [searchBy, setSearchBy] = useState<SearchByTypes>(SearchByTypes.text)
   const [open, setOpen] = useState<'filter' | null>(null)
-  const debouncedSearchInput = useDebounce(500, searchInput)
+  const debouncedSearchInput = useDebounce(searchInput, 500)
   const controllerRef = useRef<AbortController | null>()
 
   const _cancelPendingRequest = () => {

@@ -30,7 +30,7 @@ import {
 import { getGenderRepartitionSimpleData } from 'utils/graphUtils'
 import { buildPatientFiltersChips } from 'utils/chips'
 import { substructAgeString } from 'utils/age'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 type PatientListProps = {
   total: number
@@ -74,7 +74,7 @@ const PatientList: React.FC<PatientListProps> = ({
     orderDirection: 'asc'
   })
 
-  const debouncedSearchInput = useDebounce(500, searchInput)
+  const debouncedSearchInput = useDebounce(searchInput, 500)
   const controllerRef = useRef<AbortController | null>()
 
   const _cancelPendingRequest = () => {

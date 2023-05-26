@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from 'state'
 import { expandScopeElement, fetchScopesList, ScopeState } from 'state/scope'
 
 import displayDigit from 'utils/displayDigit'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 import useStyles from './styles'
 import { findEquivalentRowInItemAndSubItems, getSelectedPmsi } from 'utils/pmsi'
@@ -161,7 +161,7 @@ const ScopeTree: React.FC<ScopeTreeProps> = ({ defaultSelectedItems, onChangeSel
   const [selectedItems, setSelectedItem] = useState<any>(
     defaultSelectedItems.map((item) => findEquivalentRowInItemAndSubItems(item, rootRows).equivalentRow ?? item)
   )
-  const debouncedSearchTerm = useDebounce(700, searchInput)
+  const debouncedSearchTerm = useDebounce(searchInput, 700)
   const [page, setPage] = useState(1)
   const [count, setCount] = useState(0)
   const [isAllSelected, setIsAllSelected] = useState(false)

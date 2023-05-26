@@ -30,7 +30,7 @@ import useStyles from './styles'
 
 import { DocType, DocumentDataType, errorDetails, SearchByTypes, searchInputError } from 'types'
 import services from 'services/aphp'
-import { useDebounce } from 'utils/debounce'
+import { useDebounce } from 'usehooks-ts'
 
 type TestGeneratedFormProps = {
   criteria: any
@@ -67,7 +67,7 @@ const CompositionForm: React.FC<TestGeneratedFormProps> = (props) => {
 
   const [searchInputError, setSearchInputError] = useState<searchInputError | undefined>(undefined)
 
-  const debouncedSearchItem = useDebounce(500, defaultValues.search)
+  const debouncedSearchItem = useDebounce(defaultValues.search, 500)
 
   const isEdition = selectedCriteria !== null ? true : false
 
