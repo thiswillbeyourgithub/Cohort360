@@ -7,7 +7,7 @@ import {
   initSyncHierarchyTable,
   pushSyncHierarchyTable
 } from '../state/syncHierarchyTable'
-import { SelectedCriteriaType } from '../types'
+import { ScopeTreeRow, SelectedCriteriaType } from '../types'
 import { expandMedicationElement } from '../state/medication'
 import { fetchSignleCode } from '../services/aphp/cohortCreation/fetchMedication'
 import { expandBiologyElement } from '../state/biology'
@@ -111,7 +111,10 @@ export const getHierarchySelection = (row: any, selectedItems: any[] | undefined
   return savedSelectedItems
 }
 
-export const optimizeHierarchySelection = (selectedItems: PmsiListType[], rootRows: PmsiListType[]): PmsiListType[] => {
+export const optimizeHierarchySelection = (
+  selectedItems: PmsiListType[],
+  rootRows: PmsiListType[] | ScopeTreeRow[]
+): PmsiListType[] => {
   // If you chenge this code, change it too inside: PopulationCard.tsx:31 and Scope.jsx:25
   selectedItems = selectedItems.map(
     (selectedItem) => findEquivalentRowInItemAndSubItems(selectedItem, rootRows).equivalentRow ?? selectedItem
