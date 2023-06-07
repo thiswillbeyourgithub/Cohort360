@@ -15,7 +15,7 @@ import { findSelectedInListAndSubItems } from 'utils/cohortCreation'
 import servicesPerimeters from 'services/aphp/servicePerimeters'
 import { Checkbox } from '@mui/material'
 
-export const displayCareSiteRow = (
+export const displayCareSiteExplorationRow = (
   _row: any,
   level: number,
   parentAccess: string,
@@ -34,6 +34,8 @@ export const displayCareSiteRow = (
         row={_row}
         level={level}
         parentAccess={parentAccess}
+        selectedItems={selectedItems}
+        rootRows={rootRows}
         openPopulation={openPopulation}
         labelId={labelId}
         onExpand={onExpand}
@@ -44,7 +46,7 @@ export const displayCareSiteRow = (
       {openPopulation.find((id) => _row.id === id) &&
         _row.subItems &&
         _row.subItems.map((subItem: any) =>
-          displayCareSiteRow(
+          displayCareSiteExplorationRow(
             subItem,
             level + 1,
             parentAccess,
@@ -81,6 +83,8 @@ export const displayCareSiteSearchResultRow = (
         row={row}
         level={level}
         parentAccess={parentAccess}
+        selectedItems={selectedItems}
+        rootRows={rootRows}
         openPopulation={openPopulation}
         labelId={labelId}
         onExpand={onExpand}

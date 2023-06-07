@@ -16,7 +16,7 @@ import EnhancedTable from '../../ScopeTreeTable'
 import useStyles from '../CareSiteCommons/styles'
 import { useAppDispatch, useAppSelector } from 'state'
 import {
-  displayCareSiteRow,
+  displayCareSiteExplorationRow,
   getHeadCells,
   isIndeterminated,
   isSelected,
@@ -92,10 +92,10 @@ const CareSiteExploration = (props: ExploratedCareSiteProps) => {
                   if (!row) return <></>
                   const labelId = `enhanced-table-checkbox-${index}`
 
-                  return displayCareSiteRow(
+                  return displayCareSiteExplorationRow(
                     row,
                     0,
-                    row.access,
+                    row.access ?? '-',
                     selectedItems,
                     rootRows,
                     openPopulation,
