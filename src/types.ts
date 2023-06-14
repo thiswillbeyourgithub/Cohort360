@@ -236,10 +236,30 @@ export enum SearchByTypes {
   description = 'description'
 }
 
+export enum VitalStatusOptions {
+  birth = 'birth',
+  age = 'age',
+  deceasedAge = 'deceasedAge',
+  deceasedDate = 'deceasedDate'
+}
+
+export enum VitalStatusOptionsLabel {
+  birth = 'Date de naissance',
+  age = 'Âge actuel',
+  deceasedAge = 'Âge au décès',
+  deceasedDate = 'Date de décès'
+}
+
 export enum VitalStatus {
   alive = 'alive',
   deceased = 'deceased',
   all = 'all'
+}
+
+export enum VitalStatusLabel {
+  alive = 'Vivant(e)',
+  deceased = 'Décédé(e)',
+  all = 'Tous les patients'
 }
 
 export type Column =

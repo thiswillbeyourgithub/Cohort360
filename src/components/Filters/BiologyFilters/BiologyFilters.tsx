@@ -21,6 +21,7 @@ import {
 import ClearIcon from '@mui/icons-material/Clear'
 
 import useStyles from './styles'
+import InputCalendar from 'components/Inputs/InputCalendar/InputCalendar'
 
 type BiologyFiltersProps = {
   open: boolean
@@ -36,7 +37,7 @@ const BiologyFilters: React.FC<BiologyFiltersProps> = ({ open, onClose, filters,
   const [_filters, setFilters] = useState(filters)
   const [dateError, setDateError] = useState(false)
 
-  const _onChangeValue = (key: 'nda' | 'loinc' | 'anabio' | 'startDate' | 'endDate', value: any) => {
+  const _onChangeValue = (key: 'nda' | 'loinc' | 'anabio' | 'startDate' | 'endDate', value: string | null) => {
     const _filtersCopy = { ..._filters }
     _filtersCopy[key] = value
 
@@ -108,6 +109,7 @@ const BiologyFilters: React.FC<BiologyFiltersProps> = ({ open, onClose, filters,
         <Grid container direction="column">
           <Typography variant="h3">Date :</Typography>
           <Grid container alignItems="center" className={classes.datePickers}>
+            <InputCalendar label="Après le :" date={_filters.startDate} error={dateError} onclick={_onChangeValue} />
             <FormLabel component="legend" className={classes.dateLabel}>
               Après le :
             </FormLabel>

@@ -18,7 +18,13 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
 import useStyles from './styles'
 
-import { DemographicDataType } from 'types'
+import {
+  DemographicDataType,
+  VitalStatusLabel,
+  VitalStatusOptions,
+  VitalStatusOptionsLabel,
+  VitalStatus as VitalStatusType
+} from 'types'
 
 type DemographicFormProps = {
   criteria: any
@@ -26,6 +32,14 @@ type DemographicFormProps = {
   goBack: (data: any) => void
   onChangeSelectedCriteria: (data: any) => void
 }
+
+type Option = {
+  id: VitalStatusOptions
+  label: VitalStatusOptionsLabel
+  checked: boolean
+}
+
+type Options = Option[]
 
 const defaultDemographic: DemographicDataType = {
   type: 'Patient',
@@ -43,29 +57,21 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
 
   const { classes } = useStyles()
 
-  const [error, setError] = useState(false)
   const [ageError, setAgeError] = useState(false)
   const [multiFields, setMultiFields] = useState<string | null>(localStorage.getItem('multiple_fields'))
+  const [vitalStatus, setVitalStatus] = useState({
+    id: VitalStatusType.all,
+    label: VitalStatusLabel.all,
+    options: [
+      { id: VitalStatusOptions.age, label: VitalStatusOptionsLabel.age, checked: false },
+      { id: VitalStatusOptions.birth, label: VitalStatusOptionsLabel.birth, checked: false },
+      { id: VitalStatusOptions.deceasedDate, label: VitalStatusOptionsLabel.deceasedDate, checked: false }
+    ]
+  })
 
   const isEdition = selectedCriteria !== null ? true : false
 
   const _onSubmit = () => {
-    if (
-      defaultValues &&
-      defaultValues.vitalStatus &&
-      defaultValues.vitalStatus.length === 0 &&
-      defaultValues.gender &&
-      defaultValues.gender.length === 0 &&
-      defaultValues.years &&
-      defaultValues.ageType &&
-      +defaultValues.years[0] === 0 &&
-      +defaultValues.years[1] === 130 &&
-      defaultValues.ageType.id === 'year'
-    ) {
-      // If no input has been set
-      return setError(true)
-    }
-
     onChangeSelectedCriteria(defaultValues)
   }
 
@@ -85,7 +91,7 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
           }
         })
       : []
-  const defaultValuesVitalStatus =
+  /*const defaultValuesVitalStatus =
     defaultValues.vitalStatus && criteria.data.status !== 'loading'
       ? defaultValues.vitalStatus.map((vitalStatus: any) => {
           const criteriaStatus = criteria.data.status
@@ -96,7 +102,23 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
             label: vitalStatus.label ? vitalStatus.label : criteriaStatus?.label ?? '?'
           }
         })
-      : []
+      : []*/
+
+  /*useEffect(() => {
+     if (criteria.data.status !== 'loading') {
+      let status = defaultValues.find((vitalStatus) => )
+     }
+       ? defaultValues.vitalStatus.map((vitalStatus: any) => {
+           const criteriaStatus = criteria.data.status
+             ? criteria.data.status.find((s: any) => s.id === vitalStatus.id)
+             : null
+           return {
+             id: vitalStatus.id,
+             label: vitalStatus.label ? vitalStatus.label : criteriaStatus?.label ?? '?'
+           }
+         })
+       : []
+  }, [defaultValues, criteria])*/
 
   useEffect(() => {
     if (!Number.isInteger(defaultValues.years[0]) || !Number.isInteger(defaultValues.years[1])) {
@@ -105,6 +127,20 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
       setAgeError(false)
     }
   }, [defaultValues.years])
+
+  const handleOptionsChange = (values: Options) => {
+    setVitalStatus({
+      ...vitalStatus,
+      options: vitalStatus.options.map((option) => {
+        if (values.find((value) => option.id === value.id)) {
+          option.checked = true
+        } else {
+          option.checked = false
+        }
+        return option
+      })
+    })
+  }
 
   return (
     <Grid className={classes.root}>
@@ -123,9 +159,7 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
       </Grid>
 
       <Grid className={classes.formContainer}>
-        {error && <Alert severity="error">Merci de renseigner un champ</Alert>}
-
-        {!error && !multiFields && (
+        {!multiFields && (
           <Alert
             severity="info"
             onClose={() => {
@@ -178,16 +212,112 @@ const DemographicForm: React.FC<DemographicFormProps> = (props) => {
           />
 
           <Autocomplete
-            multiple
             id="criteria-vitalStatus-autocomplete"
             className={classes.inputItem}
-            options={criteria?.data?.status !== 'loading' ? criteria?.data?.status : []}
+            options={
+              criteria?.data?.status !== 'loading'
+                ? [
+                    {
+                      id: VitalStatusType.all,
+                      label: VitalStatusLabel.all,
+                      options: [
+                        { id: VitalStatusOptions.age, label: VitalStatusOptionsLabel.age, checked: false },
+                        { id: VitalStatusOptions.birth, label: VitalStatusOptionsLabel.birth, checked: false },
+                        {
+                          id: VitalStatusOptions.deceasedDate,
+                          label: VitalStatusOptionsLabel.deceasedDate,
+                          checked: false
+                        },
+                        {
+                          id: VitalStatusOptions.deceasedAge,
+                          label: VitalStatusOptionsLabel.deceasedAge,
+                          checked: false
+                        }
+                      ]
+                    },
+                    {
+                      id: VitalStatusType.alive,
+                      label: VitalStatusLabel.alive,
+                      options: [
+                        { id: VitalStatusOptions.age, label: VitalStatusOptionsLabel.age, checked: false },
+                        { id: VitalStatusOptions.birth, label: VitalStatusOptionsLabel.birth, checked: false }
+                      ]
+                    },
+                    {
+                      id: VitalStatusType.deceased,
+                      label: VitalStatusLabel.deceased,
+
+                      options: [
+                        { id: VitalStatusOptions.birth, label: VitalStatusOptionsLabel.birth, checked: false },
+                        {
+                          id: VitalStatusOptions.deceasedDate,
+                          label: VitalStatusOptionsLabel.deceasedDate,
+                          checked: false
+                        },
+                        {
+                          id: VitalStatusOptions.deceasedAge,
+                          label: VitalStatusOptionsLabel.deceasedAge,
+                          checked: false
+                        }
+                      ]
+                    }
+                  ]
+                : []
+            }
             getOptionLabel={(option) => option.label}
             isOptionEqualToValue={(option, value) => option.id === value.id}
-            value={defaultValuesVitalStatus}
-            onChange={(e, value) => _onChangeValue('vitalStatus', value)}
+            value={vitalStatus}
+            onChange={(e, value) => {
+              _onChangeValue('vitalStatus', value)
+              if (value) setVitalStatus(value)
+            }}
             renderInput={(params) => <TextField {...params} label="Statut vital" />}
           />
+
+          {vitalStatus.id === VitalStatusType.all && (
+            <Autocomplete
+              multiple
+              id="criteria-vitalStatus-multiple"
+              className={classes.inputItem}
+              options={vitalStatus.options}
+              getOptionLabel={(option) => option.label}
+              onChange={(e, values) => handleOptionsChange(values)}
+              renderInput={(params) => <TextField {...params} label="Critères supplémentaires" />}
+            />
+          )}
+
+          {vitalStatus.id === VitalStatusType.alive && (
+            <Autocomplete
+              multiple
+              id="criteria-vitalStatus-multiple"
+              className={classes.inputItem}
+              options={vitalStatus.options}
+              getOptionLabel={(option) => option.label}
+              onChange={(e, values) => handleOptionsChange(values)}
+              renderInput={(params) => <TextField {...params} label="Critères supplémentaires" />}
+            />
+          )}
+
+          {vitalStatus.id === VitalStatusType.deceased && (
+            <Autocomplete
+              multiple
+              id="criteria-vitalStatus-multiple"
+              className={classes.inputItem}
+              options={vitalStatus.options}
+              getOptionLabel={(option) => option.label}
+              onChange={(e, values) => handleOptionsChange(values)}
+              renderInput={(params) => <TextField {...params} label="Critères supplémentaires" />}
+            />
+          )}
+
+          {vitalStatus.options.map((option) => (
+            <>
+              {option.id === VitalStatusOptions.age && option.checked && <h1>Age</h1>}
+              {option.id === VitalStatusOptions.birth && option.checked && <h1>Date</h1>}
+              {option.id === VitalStatusOptions.deceasedAge && option.checked && <h1>Age décès</h1>}
+              {option.id === VitalStatusOptions.deceasedDate && option.checked && <h1>Date décès</h1>}
+            </>
+          ))}
 
           <FormLabel style={{ padding: '0 1em 8px' }} component="legend">
             Fourchette d'âge :

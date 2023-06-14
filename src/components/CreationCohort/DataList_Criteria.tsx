@@ -3,7 +3,7 @@ import { CriteriaItemType } from 'types'
 // Components
 import RequestForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/RequestForm/RequestForm'
 import IPPForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/IPPForm/IPPForm'
-import DemographicFrom from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/DemographicFrom/DemographicFrom'
+import DemographicForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/DemographicForm/DemographicForm'
 import DocumentsForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/DocumentsForm/DocumentsForm'
 import SupportedForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/SupportedForm/SupportedForm'
 import CCAMForm from './DiagramView/components/LogicalOperator/components/CriteriaRightPanel/CCAM'
@@ -59,7 +59,7 @@ const criteriaList: CriteriaItemType[] = [
     id: 'Patient',
     title: 'Démographie',
     color: '#0063AF',
-    components: DemographicFrom,
+    components: DemographicForm,
     data: { gender: 'loading', status: 'loading' },
     fetch: { fetchGender: services.cohortCreation.fetchGender, fetchStatus: services.cohortCreation.fetchStatus }
   },
